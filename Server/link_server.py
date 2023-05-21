@@ -2,7 +2,7 @@ import openpyxl
 from flask import Flask, request, jsonify
 
 # Load the Excel file
-workbook = openpyxl.load_workbook('projectXlsx.xlsx')
+workbook = openpyxl.load_workbook('FinalData.xlsx')
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/change_excel', methods=['POST'])
 def change_excel():
     # Get the criteria and new value from the request data
-    criteria_column = request.json['criteria_column']
+    # criteria_column = request.json['criteria_column']
     criteria_value = request.json['criteria_value']
     new_value = request.json['new_value']
 
@@ -23,7 +23,7 @@ def change_excel():
 
     # Loop through the rows and make changes based on the criteria
     i=0
-    for row in worksheet.iter_rows(min_col=6):
+    for row in worksheet.iter_rows(min_col=3):
         i+=1
         if i==criteria_value :
             row[0].value = round(new_value,4)
@@ -67,7 +67,7 @@ def change_excel():
     
 
     # # Save the changes
-    workbook.save('projectXlsx.xlsx')
+    workbook.save('FinalData.xlsx')
     workbook.close()
 
     # Return a success response

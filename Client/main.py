@@ -1,5 +1,3 @@
-                  
-
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request
@@ -8,9 +6,9 @@ import requests
 app = Flask(__name__)
 
 criteria = {
-    'latency': 5.261,
-    'availability':2001,
-    'price': 268
+    'latency':40032.05327,
+    'availability':1684085923,
+    'price': 313.2733553
 }
 
 
