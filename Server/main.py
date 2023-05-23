@@ -28,9 +28,7 @@ def predict():
     availability =jsonObjectData['availability']
     price =jsonObjectData['price']
 
-    # print(latency," ",availability," ",price)
-
-    # print(type(latency))
+    print(latency," ",availability," ",price)
 
     # print(latency,availability,price)
     input=pd.DataFrame([[availability,latency,price]],columns=['availabity_seconds','latency_seconds','price'])
@@ -47,14 +45,21 @@ def predict():
             "criteria_value":4,
             "new_value":prediction[0][1]
         }
-    res = requests.post('http://127.0.0.1:6063/change_excel', json=data_send)
+    # res = requests.post('http://127.0.0.1:6063/change_excel', json=data_send)
     # if prediction[0][2]>=1:
     #     return str(prediction[0])
     # else:
     #     return "Flag is 0"
     # print(res)
-    return "Hi"
 
+    returnData={
+        "bandwidth":prediction[0][1].tolist(),
+        "serverID":prediction2[0].tolist()
+    }
+    json_mylist =json.dumps(returnData)
+    return json_mylist
+    
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)

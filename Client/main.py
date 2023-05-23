@@ -2,24 +2,34 @@ import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request
 import requests
+from flask_cors import CORS, cross_origin
+import json
 
 app = Flask(__name__)
-
-criteria = {
-    'latency':40032.05327,
-    'availability':1684085923,
-    'price': 313.2733553
-}
+CORS(app)
 
 
-@app.route('/')
+
+
+@app.route('/',methods=['POST'])
 def index():
+    data=request.data
+    strData=data.decode()
+    jsonObjectData = json.loads(strData)
+    criteria = {
+        'latency':float(jsonObjectData['latency']),
+        'availability':float(jsonObjectData['availability']),
+        'price': float(jsonObjectData['price'])
+    }
+    
     res = requests.post('http://127.0.0.1:5002/predict', json=criteria)
     
-    ans1=list(res)[0].decode()
-    print("The answer is : ",ans1)
+    stringRes=res.content.decode()
+    ans1=json.loads(stringRes)
+
+    # print("The answer is : ",ans1)
     # dictFromServer = res.json()
-    return "hi"
+    return ans1
 
 
 
